@@ -13,7 +13,7 @@ public class Clients {
 
             @Id
             @GeneratedValue(strategy = GenerationType.IDENTITY)
-            private Long id;
+            private Long client_id;
 
             @Column(nullable = false)
             private String name;
@@ -29,11 +29,11 @@ public class Clients {
             private OrganizationalForm form;
 
             public Long getId() {
-                return id;
+                return client_id;
             }
 
             public void setId(Long id) {
-                this.id = id;
+                this.client_id = id;
             }
 
             public String getName() {

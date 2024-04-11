@@ -9,7 +9,7 @@ public class Bank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long bank_id;
 
     @Column(nullable = false)
     private String name;
@@ -18,11 +18,11 @@ public class Bank {
     private String bik;
 
     public Long getId() {
-        return id;
+        return bank_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.bank_id = id;
     }
 
     public String getName() {

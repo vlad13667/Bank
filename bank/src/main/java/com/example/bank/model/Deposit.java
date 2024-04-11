@@ -1,6 +1,6 @@
 package com.example.bank.model;
 
-import ch.qos.logback.core.net.server.Client;
+
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -11,10 +11,10 @@ public class Deposit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long deposit_id;
 
     @ManyToOne
-    private Client client;
+    private Clients client;
 
     @ManyToOne
     private Bank bank;
@@ -29,18 +29,18 @@ public class Deposit {
     private Integer termInMonths;
 
     public Long getId() {
-        return id;
+        return deposit_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.deposit_id = id;
     }
 
-    public Client getClient() {
+    public Clients getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(Clients client) {
         this.client = client;
     }
 

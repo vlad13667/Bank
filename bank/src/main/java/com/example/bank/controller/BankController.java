@@ -27,20 +27,23 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RestController
 public class BankController {
 
     // Загрузка  новой сущности
     @Autowired
     private ClientService clientService;
+    @Autowired
     private BankService bankService;
+    @Autowired
     private DepositService depositService;
     @PostMapping("/Contribution")
 
     public ResponseEntity<?> createClient(@RequestBody Clients client) throws URISyntaxException {
-        clientService.save(client);
-        return ResponseEntity.created(new URI("/clients/" + client.getId())).build();
+        clientService.create(client);
+        return ResponseEntity.created(new URI("/clients/" + client)).build();
     }
-    @PostMapping("/banks")
+    @PostMapping(value = "/banks")
     public ResponseEntity<?> createBank( @RequestBody Bank bank) throws URISyntaxException {
         bankService.save(bank);
         return ResponseEntity.created(new URI("/banks/" + bank.getId())).build();

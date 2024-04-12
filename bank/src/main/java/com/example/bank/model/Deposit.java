@@ -13,11 +13,14 @@ public class Deposit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deposit_id;
 
-    @ManyToOne
-    private Clients client;
 
-    @ManyToOne
-    private Bank bank;
+    @Column(nullable = false)
+    private long client;
+
+
+
+    @Column(nullable = false)
+    private long bank;
 
     @Column(nullable = false)
     private Date openingDate;
@@ -36,19 +39,19 @@ public class Deposit {
         this.deposit_id = id;
     }
 
-    public Clients getClient() {
+    public Long getClient() {
         return client;
     }
 
-    public void setClient(Clients client) {
-        this.client = client;
+    public void setClient(Long id) {
+        this.client = id;
     }
 
-    public Bank getBank() {
+    public Long getBank() {
         return bank;
     }
 
-    public void setBank(Bank bank) {
+    public void setBank(Long bank) {
         this.bank = bank;
     }
 

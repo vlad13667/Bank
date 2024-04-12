@@ -2,6 +2,8 @@ package com.example.bank.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.antlr.v4.runtime.misc.NotNull;
+
 @Entity
 @Table(name = "clients")
 public class Clients {
@@ -17,6 +19,7 @@ public class Clients {
 
             @Column(nullable = false)
             private String name;
+
 
             @Column(nullable = false)
             private String shortName;

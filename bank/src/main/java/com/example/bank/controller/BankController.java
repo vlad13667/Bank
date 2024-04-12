@@ -37,117 +37,57 @@ public class BankController {
     private BankService bankService;
     @Autowired
     private DepositService depositService;
-    @PostMapping("/Contribution")
+
+    @PostMapping("/clients")
 
     public ResponseEntity<?> createClient(@RequestBody Clients client) throws URISyntaxException {
         clientService.create(client);
         return ResponseEntity.created(new URI("/clients/" + client)).build();
     }
+
     @PostMapping(value = "/banks")
-    public ResponseEntity<?> createBank( @RequestBody Bank bank) throws URISyntaxException {
+    public ResponseEntity<?> createBank(@RequestBody Bank bank) throws URISyntaxException {
         bankService.save(bank);
         return ResponseEntity.created(new URI("/banks/" + bank.getId())).build();
     }
+
     @PostMapping("/deposits")
-    public ResponseEntity<?> createDeposit( @RequestBody Deposit deposit) throws URISyntaxException {
+    public ResponseEntity<?> createDeposit(@RequestBody Deposit deposit) throws URISyntaxException {
         depositService.save(deposit);
         return ResponseEntity.created(new URI("/deposits/" + deposit.getId())).build();
     }
-    /*
 
-    @ApiOperation(value = "Загрузите несколько файлов в формате zip", response = ResponseEntity.class, notes = "Укажите имена файлов для загрузки их в виде одного zip-файла.")
-    @ApiImplicitParam(name = "fileNames", value = "List of File Names", required = true, dataType = "List", paramType = "query")
-    @GetMapping("/files/download/multiple")
-    public ResponseEntity<ByteArrayResource> downloadMultipleFiles(@RequestParam List<String> fileNames) {
-        byte[] data = fileService.multupla(fileNames).getBody();
-        ByteArrayResource resource = new ByteArrayResource(data);
+    @DeleteMapping(value = "/clients/{id}")
+    public ResponseEntity<?> deleteClients(@PathVariable Long id) {
+        final boolean deleted = clientService.deleteClients(id);
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=files.zip")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
-    }
-    @ApiOperation(value = "Получить подробную информацию о файле по имени", response = ResponseEntity.class)
-
-    @GetMapping("/files/{fileName}")
-
-    public ResponseEntity<FileData> getFileByName(@PathVariable String fileName) throws IOException {
-        ResponseEntity<FileData> file = fileService.load(fileName);
-        return file;
-    }
-    @ApiOperation(value = "Загрузить файла", response = ResponseEntity.class, notes = "Укажите имя файла для загрузки файла.")
-    @GetMapping("/files/download/{fileName}")
-    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) throws IOException {
-
-        // Эта строка получает  файл как InputStream от  сервиса.
-
-        InputStream file = fileService.download(fileName);
-        //Устанавливаем contentType файла как MediaType.APPLICATION_OCTET_STREAM, чтобы файл мог быть прямо загружен
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment;filename=" + fileName)
-                .body(new InputStreamResource(file));
-
-
+        return deleted
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @ApiOperation(value = "Получение списка  файлов с помощью фильтров", response = ResponseEntity.class, notes = "Могут быть применены дополнительные фильтры.")
-    @GetMapping("/files")
-    public ResponseEntity<?> getFileNames(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo,
-            @RequestParam(required = false) List<String> types) throws IOException {
+    @DeleteMapping(value = "/bank/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
+        final boolean deleted = bankService.delete(id);
 
-        return fileService.loadAllFiltered(name, dateFrom, dateTo, types);
-
+        return deleted
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    /*
-    @PutMapping("/files/{fileName}")
-    public ResponseEntity<FileData> updateFile(@PathVariable String fileName, @RequestParam("file") MultipartFile updatedFile) {
-        try {
-            for (FileData file : files) {
-                if (file.getFileName().equals(fileName)) {
-                    file.setModificationDate(new Date());
-                    file.setFileName(updatedFile.getOriginalFilename());
-                    file.setFileType(updatedFile.getContentType());
-                    file.setFileSize(updatedFile.getSize());
-                    file.setFileContent(updatedFile.getBytes());
-                    return ResponseEntity.ok(file);
-                }
-            }
-            return ResponseEntity.notFound().build();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-
-
-    @ApiOperation(value = "Удаление всех файлов с сервера", response = ResponseEntity.class)
-    @DeleteMapping("/files")
-    public ResponseEntity<?> deleteAllFiles() {
-        fileService.deleteAll();
-        return new ResponseEntity<>("Все файлы удалены", HttpStatus.OK);
-
-    }
-
-    @ApiOperation(value = "Удаление файла по имени с сервера", response = ResponseEntity.class, notes = "Укажите имя файла, чтобы удалить файл..")
-    @DeleteMapping("/files/{fileName}")
-    public ResponseEntity<?> deleteFile(@PathVariable String fileName) throws IOException {
-        boolean isDeleted = fileService.delete(fileName);
+    @DeleteMapping(value = "/deposits/{id}")
+    public ResponseEntity<?> deleteDeposits(@PathVariable Long id) {
+        boolean isDeleted = depositService.deleteDeposits(id);
 
         if (isDeleted) {
-            return ResponseEntity.ok("Файл с именем '" + fileName + "' удалён.");
+            return ResponseEntity.ok("Файл с именем '" + id + "' удалён.");
         } else {
-            throw new FileNotFoundException("Файла с именем '" + fileName + "' несуществует.");
+            //throw new FileNotFoundException("Файла с именем '" + id + "' несуществует.");
         }
+        return null;
     }
 
-
-     */
+   
 
 
 }

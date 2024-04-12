@@ -87,7 +87,27 @@ public class BankController {
         return null;
     }
 
-   
+    @GetMapping("/clients")
+    public ResponseEntity<?> getClientsNames(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String shortName,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Enum form,
+            @RequestParam(required = false) List<String> types) throws IOException {
+
+        return ClientService.loadAllFiltered(name, shortName, address, form);
+
+    }
+    @GetMapping("/bank")
+    public ResponseEntity<?> getBankNames(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String bik,
+            @RequestParam(required = false) List<String> types) throws IOException {
+
+        return bankService.loadAllFiltered(name,bik);
+
+    }
+
 
 
 }

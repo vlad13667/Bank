@@ -15,12 +15,12 @@ public class Deposit {
 
 
     @Column(nullable = false)
-    private long client;
+    private long client_id;
 
 
 
     @Column(nullable = false)
-    private long bank;
+    private long bank_id;
 
     @Column(nullable = false)
     private Date openingDate;
@@ -29,7 +29,7 @@ public class Deposit {
     private Integer percent;
 
     @Column(nullable = false)
-    private Integer termInMonths;
+    private Integer termMonths;
 
     public Long getId() {
         return deposit_id;
@@ -40,19 +40,19 @@ public class Deposit {
     }
 
     public Long getClient() {
-        return client;
+        return client_id;
     }
 
     public void setClient(Long id) {
-        this.client = id;
+        this.client_id = id;
     }
 
     public Long getBank() {
-        return bank;
+        return bank_id;
     }
 
     public void setBank(Long bank) {
-        this.bank = bank;
+        this.bank_id = bank;
     }
 
     public Date getOpeningDate() {
@@ -72,10 +72,10 @@ public class Deposit {
     }
 
     public Integer getTermInMonths() {
-        return termInMonths;
+        return termMonths;
     }
 
     public void setTermInMonths(Integer termInMonths) {
-        this.termInMonths = termInMonths;
+        this.termMonths = termInMonths;
     }
 }

@@ -14,22 +14,54 @@ public class Deposit {
     private Long deposit_id;
 
 
-    @Column(nullable = false)
-    private long client_id;
+    @Column(insertable=false, updatable=false)
+    private Long client_id;
+    @Column(insertable=false, updatable=false)
+    private Long bank_id;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+    private Clients client;
 
+    // Связь с банком
+    @ManyToOne
+    @JoinColumn(name = "bank_id", referencedColumnName = "bank_id")
+    private Bank bank;
 
-    @Column(nullable = false)
-    private long bank_id;
+    // Предполагаем, что у вас есть свойство для хранения id банка
+    // @Column(insertable = false, updatable = false)
+    // private Long bankId;
 
     @Column(nullable = false)
     private Date openingDate;
 
     @Column(nullable = false)
-    private Integer percent;
+    private Float percent;
 
     @Column(nullable = false)
     private Integer termMonths;
+
+    // Методы для установки и получения клиента и банка
+    public void setClient(Clients client) {
+        this.client = client;
+    }
+/*
+    public Clients getClient() {
+        return client;
+    }
+
+ */
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+
+    public Bank getBank() {
+        return bank;
+    }
+
+
 
     public Long getId() {
         return deposit_id;
@@ -37,22 +69,6 @@ public class Deposit {
 
     public void setId(Long id) {
         this.deposit_id = id;
-    }
-
-    public Long getClient() {
-        return client_id;
-    }
-
-    public void setClient(Long id) {
-        this.client_id = id;
-    }
-
-    public Long getBank() {
-        return bank_id;
-    }
-
-    public void setBank(Long bank) {
-        this.bank_id = bank;
     }
 
     public Date getOpeningDate() {
@@ -63,11 +79,11 @@ public class Deposit {
         this.openingDate = openingDate;
     }
 
-    public Integer getPercent() {
+    public Float getPercent() {
         return percent;
     }
 
-    public void setPercent(Integer percent) {
+    public void setPercent(Float percent) {
         this.percent = percent;
     }
 

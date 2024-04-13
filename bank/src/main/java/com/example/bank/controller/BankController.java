@@ -2,6 +2,7 @@ package com.example.bank.controller;
 
 import ch.qos.logback.core.net.server.Client;
 import com.example.bank.model.Bank;
+import com.example.bank.model.ClientDTO;
 import com.example.bank.model.Clients;
 import com.example.bank.model.Deposit;
 import com.example.bank.service.BankService;
@@ -25,6 +26,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -106,6 +108,38 @@ public class BankController {
 
         return bankService.loadAllFiltered(name,bik);
 
+    }
+
+    @GetMapping("/deposit")
+    public ResponseEntity<?> getDepositNames(
+            @RequestParam(required = false) String clientName,
+            //@RequestParam(required = false) String bankName,
+            @RequestParam(required = false) Date openingDate,
+            @RequestParam(required = false) Float percent,
+            @RequestParam(required = false) Integer termMonths,
+            @RequestParam(required = false) List<String> types) throws IOException {
+
+        return depositService.loadAllFiltered(clientName ,openingDate,percent,termMonths);
+
+    }
+
+
+
+    @GetMapping("/deposits")
+    public ResponseEntity<?> getDepositqNames() throws FileNotFoundException {
+
+        return depositService.loadAll();
+
+    }
+    @GetMapping("/deposi")
+    public List<Clients> getAllDeposits() {
+        return ClientService.getAllDeposits();
+    }
+
+    @GetMapping("/clientss")
+    public ResponseEntity<List<ClientDTO>> getClients() {
+        List<ClientDTO> clients = clientService.getClients(); // Предполагается, что у вас есть сервис, который реализует эту логику
+        return ResponseEntity.ok(clients);
     }
 
 

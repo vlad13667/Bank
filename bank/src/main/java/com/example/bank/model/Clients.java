@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "clients")
 public class Clients {
@@ -30,6 +32,22 @@ public class Clients {
             @Enumerated(EnumType.STRING)
             @Column(nullable = false)
             private OrganizationalForm form;
+
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+        private List<Deposit> deposits;
+
+        // Метод для установки списка депозитов
+        public void setDeposits(List<Deposit> deposits) {
+            this.deposits = deposits;
+        }
+
+        // Метод для получения списка депозитов
+        public List<Deposit> getDeposits() {
+            return deposits;
+        }
+
+
 
             public Long getId() {
                 return client_id;

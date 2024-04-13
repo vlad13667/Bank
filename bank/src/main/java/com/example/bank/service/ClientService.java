@@ -1,9 +1,6 @@
 package com.example.bank.service;
 
-import com.example.bank.model.Bank;
-import com.example.bank.model.BankRepository;
-import com.example.bank.model.ClientRepository;
-import com.example.bank.model.Clients;
+import com.example.bank.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -14,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -93,7 +91,25 @@ public class ClientService {
         return (root, query, cb) -> cb.equal(root.<Clients>get("form"), form);
     }
 
+    public static List<Clients> getAllDeposits() {
+        return clientRepository.findAll();
+    }
 
+    public static List<Clients> getAll() {
+        return clientRepository.findAll();
+    }
+
+    public List<ClientDTO> getClients() {
+        List<Clients> clients = clientRepository.findAll(); // Замените на ваш метод репозитория для извлечения всех клиентов
+        return clients.stream()
+                .map(client -> new ClientDTO(client.getId(), client.getName(), client.getShortName(), client.getAddress(), client.getForm()))
+                .collect(Collectors.toList());
+    }
+
+    // Метод для создания DTO из сущности Client
+    private ClientDTO newClientDTO(Clients client) {
+        return new ClientDTO(client.getId(), client.getName(), client.getShortName(), client.getAddress(), client.getForm());
+    }
 
 
 }
